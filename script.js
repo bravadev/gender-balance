@@ -1,5 +1,4 @@
-//const API_URL = "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json";
-const API_URL = "https://api.data.unicef.org/v2/population/countries/all/indicators/SP.POP.TOTL";
+const API_URL = "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json";
 
 let chart = null;
 
@@ -9,7 +8,7 @@ const getData = async () => {
     return fetch(API_URL)
         .then((response) => response.json())
         .then((data) => {
-// Récupération des données sur la population totale de chaque pays
+// Récupération des donées sur la population totale de chaque pays
             const populationData = data[1];
 
             // Calcul du nombre total de filles et de garçons dans le monde
@@ -52,7 +51,7 @@ const createChart = (data) => {
                     display: true,
                     position: "bottom"
                 },
-                legendCallback: function(chart){
+                legendCallback: function(chart) {
                     const legendHtml = [];
                     legendHtml.push('<ul class="' + chart.id + '-legend">');
                     for (var i = 0; i < chart.data.datasets.length; i++) {
@@ -65,29 +64,28 @@ const createChart = (data) => {
             }
         });
 
-        // Mise à jour du type de chart seulement si la chart est créée correctement
-        if (chart !== null) {
-            updateChartType();
-        }
-    }
-
+// Mise à jour du type de chart seulement si la chart est créée correctement
+if (chart !== null) {
+updateChartType();
+}
+}
 }
 
 // Fonction pour mettre à jour les données de la chart
 const updateChart = () => {
 // Utiliser la méthode ".then()" pour gérer la promesse renvoyée par getData()
-    getData().then((data) => {
-        createChart(data);
-        document.getElementById("last-update").innerHTML = new Date().toLocaleString();
-    });
+getData().then((data) => {
+createChart(data);
+document.getElementById("last-update").innerHTML = new Date().toLocaleString();
+});
 }
 
 const updateChartType = () => {
-    if (chart !== null) {
-        const chartType = document.getElementById("chart-type").value;
-        chart.config.type = chartType;
-        chart.update();
-    }
+if (chart !== null) {
+const chartType = document.getElementById("chart-type").value;
+chart.config.type = chartType;
+chart.update();
+}
 }
 
 document.getElementById("refresh-btn").addEventListener("click", updateChart);
