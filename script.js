@@ -1,33 +1,35 @@
-// URL de l'API des indicateurs mondiaux de la Banque mondiale
 const API_URL = "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json";
 
-// Variable globale pour stocker l'instance de la chart
 let chart = null;
 
 // Fonction pour récupérer les données sur l'équilibre filles/garçons dans le monde
 const getData = async () => {
-    const response = await fetch(API_URL);
-    const data = await response.json();
+// Utiliser la méthode ".catch()" pour gérer les erreurs potentielles dans la promesse
+    return fetch(API_URL)
+        .then((response) => response.json())
+        .then((data) => {
+// Récupération des donées sur la population totale de chaque pays
+            const populationData = data[1];
 
-// Récupération des données sur la population totale de chaque pays
-    const populationData = data[1];
+            // Calcul du nombre total de filles et de garçons dans le monde
+            let totalGirls = 0;
+            let totalBoys = 0;
+            populationData.forEach((country) => {
+                totalGirls += country.value * 0.5; // Hypothèse que la population est composée de 50% de filles et de 50% de garçons
+                totalBoys += country.value * 0.5;
+            });
 
-// Calcul du nombre total de filles et de garçons dans le monde
-    let totalGirls = 0;
-    let totalBoys = 0;
-    populationData.forEach((country) => {
-        totalGirls += country.value * 0.5; // Hypothèse que la population est composée de 50% de filles et de 50% de garçons
-        totalBoys += country.value * 0.5;
-    });
-
-    return {
-        girls: totalGirls,
-        boys: totalBoys
-    };
+            return {
+                girls: totalGirls,
+                boys: totalBoys
+            };
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la récupération des données : ", error);
+        });
 
 }
 
-// Fonction pour créer la chart affichant l'équilibre filles/garçons dans le monde
 const createChart = (data) => {
     const chartElement = document.getElementById("chart");
 
@@ -62,35 +64,32 @@ const createChart = (data) => {
             }
         });
 
-        // Mise à jour du type de chart seulement si la chart est créée correctement
-        if (chart !== null) {
-            updateChartType();
-        }
-    }
-
+// Mise à jour du type de chart seulement si la chart est créée correctement
+if (chart !== null) {
+updateChartType();
+}
+}
 }
 
 // Fonction pour mettre à jour les données de la chart
 const updateChart = () => {
-    getData().then((data) => {
-        createChart(data);
-        document.getElementById("last-update").innerHTML = new Date().toLocaleString();
-    });
+// Utiliser la méthode ".then()" pour gérer la promesse renvoyée par getData()
+getData().then((data) => {
+createChart(data);
+document.getElementById("last-update").innerHTML = new Date().toLocaleString();
+});
 }
 
-// Fonction pour mettre à jour le type de chart
 const updateChartType = () => {
-    if (chart !== null) {
-        const chartType = document.getElementById("chart-type").value;
-        chart.config.type = chartType;
-        chart.update();
-    }
+if (chart !== null) {
+const chartType = document.getElementById("chart-type").value;
+chart.config.type = chartType;
+chart.update();
+}
 }
 
-// Ajout des évènements d'écoute sur les boutons et les sélecteurs pour mettre à jour la chart
 document.getElementById("refresh-btn").addEventListener("click", updateChart);
 document.getElementById("chart-type").addEventListener("change", updateChartType);
 
-// Mise à jour de la chart toutes les minutes
 setInterval(updateChart, 60000);
 updateChart();
