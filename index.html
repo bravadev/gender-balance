@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Équilibre filles/garçons dans le monde</title>
+    <meta charset="utf-8">
+    <title>Equilibre filles/garçons dans le monde</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Équilibre filles/garçons dans le monde</h1>
-
+<h1>Equilibre filles/garçons dans le monde</h1>
+<h2>Dernière mise à jour : <span id="last-update"></span></h2>
 <div id="chart-container">
     <canvas id="chart"></canvas>
 </div>
-
-<p id="last-update"></p>
-
-<button id="refresh-btn">Actualiser les données</button>
-<select id="chart-type">
-    <option value="bar">Histogramme</option>
-    <option value="pie">Camembert</option>
-</select>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<div id="country-data-container">
+    <h3>Données par pays</h3>
+    <table id="country-data"></table>
+</div>
+<div id="controls-container">
+    <label for="chart-type">Type de chart :</label>
+    <select id="chart-type">
+        <option value="bar">Bar</option>
+        <option value="pie">Pie</option>
+        <option value="line">Line</option>
+    </select>
+    <button id="refresh-btn">Mettre à jour</button>
+</div>
 <script src="script.js"></script>
-
 </body>
 </html>
