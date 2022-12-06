@@ -1,7 +1,10 @@
+// URL de l'API des indicateurs mondiaux de la Banque mondiale
 const API_URL = "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json";
 
+// Variable globale pour stocker l'instance de la chart
 let chart = null;
 
+// Fonction pour récupérer les données sur l'équilibre filles/garçons dans le monde
 const getData = async () => {
     const response = await fetch(API_URL);
     const data = await response.json();
@@ -24,6 +27,7 @@ const getData = async () => {
 
 }
 
+// Fonction pour créer la chart affichant l'équilibre filles/garçons dans le monde
 const createChart = (data) => {
     const chartElement = document.getElementById("chart");
 
@@ -66,6 +70,7 @@ const createChart = (data) => {
 
 }
 
+// Fonction pour mettre à jour les données de la chart
 const updateChart = () => {
     getData().then((data) => {
         createChart(data);
@@ -73,14 +78,19 @@ const updateChart = () => {
     });
 }
 
+// Fonction pour mettre à jour le type de chart
 const updateChartType = () => {
-    const chartType = document.getElementById("chart-type").value;
-    chart.config.type = chartType;
-    chart.update();
+    if (chart !== null) {
+        const chartType = document.getElementById("chart-type").value;
+        chart.config.type = chartType;
+        chart.update();
+    }
 }
 
+// Ajout des évènements d'écoute sur les boutons et les sélecteurs pour mettre à jour la chart
 document.getElementById("refresh-btn").addEventListener("click", updateChart);
 document.getElementById("chart-type").addEventListener("change", updateChartType);
 
+// Mise à jour de la chart toutes les minutes
 setInterval(updateChart, 60000);
 updateChart();
