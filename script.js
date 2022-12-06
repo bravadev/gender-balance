@@ -1,5 +1,4 @@
-//const API_URL = "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json";
-const API_URL = "https://api.data.unicef.org/v2/population/countries/all/indicators/SP.POP.TOTL";
+const API_URL = "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json";
 
 let chart = null;
 
