@@ -1,22 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Equilibre filles/garçons dans le monde</title>
+    <meta charset="UTF-8">
+    <title>Équilibre filles/garçons dans le monde</title>
     <link rel="stylesheet" href="style.css">
-    <meta charset="utf-8">
 </head>
 <body>
-<h1>Equilibre filles/garçons dans le monde</h1>
-<div id="chart"></div>
-<p>Dernière actualisation : <span id="last-update"></span></p>
-<p>
-    Mode de visualisation :
-    <select id="chart-type">
-        <option value="bar">Histogramme</option>
-        <option value="pie">Camembert</option>
-    </select>
-</p>
-<button id="refresh-btn">Actualiser</button>
+<h1>Équilibre filles/garçons dans le monde</h1>
+
+<div id="chart-container">
+    <canvas id="chart"></canvas>
+</div>
+
+<p id="last-update"></p>
+
+<button id="refresh-btn">Actualiser les données</button>
+<select id="chart-type">
+    <option value="bar">Histogramme</option>
+    <option value="pie">Camembert</option>
+</select>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
